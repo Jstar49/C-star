@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-26 23:53:50
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-11-28 22:52:20
+LastEditTime: 2022-12-04 00:39:11
 FilePath: \C-star\code_blocks.py
 Description: 
     Code Blocks 
@@ -22,7 +22,8 @@ class CodeBlock:
         self.num_new_var = None
         # var init queue
         self.block_new_var_list = []
-        self.c_source_block = []
+        self.block_statements = []
+        self.block_c_source_code = []
     
     # generate new vars
     def Generate_Code_Blocks_var(self):
@@ -34,15 +35,24 @@ class CodeBlock:
             self.block_new_var_list.append(tmp_var)
     
     # generate statements
-    def Gen_statements(self):
-        state = Statements()
-        state.var_can_use = self.block_new_var_list
-        state.Gen_Statements()
+    def Gen_Block_statements(self):
+        statements_num = random.randint(1, 5)
+        for i in range(statements_num):
+            state = Statements()
+            state.var_can_use = self.block_new_var_list
+            state.Gen_Statements()
+            self.block_statements.append(state)
 
     # generate C source code block
     def Generate_C_Source_CodeBlock(self):
         # generate init vars
         self.Generate_Init_Vars_Source_Code()
+        # statements
+        for i in range(len(self.block_statements)):
+            self.block_c_source_code.append(self.block_statements[i].c_code)
+        # print block codes
+        for i in range(len(self.block_c_source_code)):
+            print(self.block_c_source_code[i])
     
     # generate init vars C source code
     def Generate_Init_Vars_Source_Code(self):
@@ -51,5 +61,4 @@ class CodeBlock:
         for var in self.block_new_var_list:
             # print(var)
             tmp_str = var.type_name + " " + var.var_name + " = " + str(var.val) +";"
-            self.c_source_block.append(tmp_str)
-            print(tmp_str)
+            self.block_c_source_code.append(tmp_str)

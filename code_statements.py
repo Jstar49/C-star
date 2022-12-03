@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-27 23:10:15
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-11-29 23:47:33
+LastEditTime: 2022-12-04 00:33:45
 FilePath: \C-star\code_statements.py
 Description: 
     Generate C statements
@@ -11,6 +11,16 @@ Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved.
 '''
 import random
 from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
+
+# binary tree  class
+class ArithmeticsTree:
+    def __init__(self) -> None:
+        self.left = None
+        self.right = None
+        self.value = None
+        # is leaf node ?
+        self.is_leaf = False
+        self.level = 0
 
 # 
 class RandomArithmetics:
@@ -41,25 +51,57 @@ class Assignement:
         self.children_type = None
         # statements C code
         self.state_c_code = ""
+        self.state_c_code += self.parents_var.var_name + " "
+        self.var_can_used = []
     
     # gen right
     def Gen_Assigned_And_children(self, var_can_used=[]):
+        self.var_can_used = var_can_used
         self.assignement_type = random.choice(list(AssignementTypes))
+        self.state_c_code += self.assignement_type.value + " "
         # gen random arithmetics
-        self.Gen_RandomArithmetics(var_can_used)
+        self.Gen_RandomArithmetics()
     
     # gen random arithmetics
-    def Gen_RandomArithmetics(self, var_can_used = []):
-        # self.children = RandomArithmetics(left_var, right_var)
-        # self.children.Gen_Arithmetic()
-        num_of_arithmetics = random.randint(1, 5)
-        for i in range(num_of_arithmetics):
-            deep_of_arithmetics = random.randint(1, 4)
-            for j in range(deep_of_arithmetics):
-                left = random.choice(var_can_used)
-                right = random.choice(var_can_used)
-                tmp_ari = RandomArithmetics(left, right)
-                tmp_ari.Gen_Arithmetic()
+    def Gen_RandomArithmetics(self):
+        root_node = ArithmeticsTree()
+        root_node.value = random.choice(list(MathematicalTypes))
+        self.Gen_RandomTree_By_Level(root_node, 5, 0)
+        # inorder traversal to get a arithmetics statement
+        self.Inorder_ArithmeticsTree(root_node)
+        self.state_c_code += ";"
+        # print(self.state_c_code)
+
+    # Gen a binary tree, max level < max_level
+    def Gen_RandomTree_By_Level(self, node, max_level, level):
+        if node.is_leaf:
+            node.value = random.choice(self.var_can_used)
+            return
+        # left node
+        node.left = ArithmeticsTree()
+        node.left.deep = level + 1
+        node.left.value = random.choice(list(MathematicalTypes))
+        node.right = ArithmeticsTree()
+        # right node
+        node.right.deep = level + 1
+        node.right.value = random.choice(list(MathematicalTypes))
+        # 33% chance to set next level is leaf
+        random_leaf = random.randint(0,2)
+        if level >= max_level or random_leaf == 1:
+            node.left.is_leaf = True
+            node.right.is_leaf = True
+        self.Gen_RandomTree_By_Level(node.left, max_level, level + 1)
+        self.Gen_RandomTree_By_Level(node.right, max_level, level + 1)
+
+    def Inorder_ArithmeticsTree(self, node):
+        if node.is_leaf:
+            self.state_c_code += node.value.var_name
+            return
+        self.state_c_code += "("
+        self.Inorder_ArithmeticsTree(node.left)
+        self.state_c_code += node.value.value
+        self.Inorder_ArithmeticsTree(node.right)
+        self.state_c_code += ")"
     
     # assignement statement to C code
     def Gen_Assignement_C_Code(self):
@@ -81,6 +123,7 @@ class Statements:
         self.var_used = []
         # the variables that can be used
         self.var_can_use = []
+        self.c_code = ""
         
     # gen statements
     def Gen_Statements(self):
@@ -88,15 +131,7 @@ class Statements:
 
     def Gen_Assignement(self):
         self.statement_type = StatementsTypes.Assignement
-        self.state = Assignement()
-        self.state.parents_var = random.choice(self.var_can_use)
+        self.state = Assignement(parents_var=random.choice(self.var_can_use))
         print("====== Gen_Assignement self.state.parents_var", self.state.parents_var)
-        # need left var and right var
-        tmp_left = random.choice(self.var_can_use)
-        tmp_right = random.choice(self.var_can_use)
-        self.state.Gen_Assigned_And_children(left_var=tmp_left, right_var=tmp_right)
-        print("===== Gen_Assignement")
-        print(self.state.parents_var, self.state.assignement_type)
-        print(self.state.children.arithmetic_type, self.state.children.left_var, self.state.children.right_var)
-        self.state.Gen_Assignement_C_Code()
-        print(self.state.state_c_code)
+        self.state.Gen_Assigned_And_children(self.var_can_use)
+        self.c_code = self.state.state_c_code
