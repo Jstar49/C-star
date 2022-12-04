@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-20 21:18:40
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-11-28 21:46:40
+LastEditTime: 2022-12-04 22:39:53
 FilePath: \C-star\pkg.py
 Description: 
     一些类型定义 & 枚举
@@ -10,6 +10,17 @@ Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved.
 '''
 from config import args
 from enum import Enum, IntEnum, unique, auto
+
+# Indentation
+INDENT = "  "
+
+# block id
+BLOCK_ID = 0
+
+def Get_BLOCKID():
+    global BLOCK_ID
+    BLOCK_ID += 1
+    return BLOCK_ID
 
 # data types
 class VarTypes:
