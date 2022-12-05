@@ -1,3 +1,13 @@
+'''
+Author: joessem jxxclj@gmail.com
+Date: 2022-12-04 20:43:10
+LastEditors: joessem jxxclj@gmail.com
+LastEditTime: 2022-12-05 21:57:00
+FilePath: \C-star\function.py
+Description: 
+
+Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
+'''
 from code_blocks import  CodeBlock
 from pkg import *
 import random
@@ -44,6 +54,6 @@ class FunctionClass:
         self.function_code.append("}")
 
         # print function code
-        for item in self.function_code:
-            print(item)
+        # for item in self.function_code:
+        #     print(item)
 

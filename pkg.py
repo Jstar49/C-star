@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-20 21:18:40
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-04 22:39:53
+LastEditTime: 2022-12-05 22:05:21
 FilePath: \C-star\pkg.py
 Description: 
     一些类型定义 & 枚举
@@ -32,9 +32,9 @@ class VarTypes:
     SHORT = "short"
     UINT = "unsigned int"
     INT = "int"
-    ULONG = "usigned long"
+    ULONG = "unsigned long"
     LONG = "long"
-    ULONGLONG = "usigned long long"
+    ULONGLONG = "unsigned long long"
     LONGLONG = "long long"
     FLOAT = "float"
     DOUBLE = "double"
