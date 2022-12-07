@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-28 21:13:49
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-05 22:04:24
+LastEditTime: 2022-12-07 23:12:02
 FilePath: \C-star\gen_program.py
 Description: 
     The main class to generate program.
@@ -21,7 +21,8 @@ class Gen_Program:
         self.global_vars = []
         self.outfile = args.o
         self.program_code = []
-    
+        # self.program_result_vars = []
+
     # main function
     def main(self):
         self.Gen_main_function()

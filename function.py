@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-12-04 20:43:10
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-05 21:57:00
+LastEditTime: 2022-12-07 23:42:08
 FilePath: \C-star\function.py
 Description: 
 
@@ -20,6 +20,7 @@ class FunctionClass:
         self.function_blocks = []
         self.function_code = []
         self.var_can_used_function = []
+        self.result_vars = []
     
     def main(self):
         pass
@@ -31,6 +32,7 @@ class FunctionClass:
         self.block_num = random.randint(1, 5)
         for i in range(self.block_num):
             self.Gen_code_block()
+        print(self.result_vars)
         self.FunCode_Translation()
     
     # generate code block
@@ -42,6 +44,7 @@ class FunctionClass:
         block.Gen_Block_statements()
         block.Generate_C_Source_CodeBlock()
         self.function_blocks.append(block)
+        self.result_vars.append(random.choice(block.block_new_var_list))
 
     # generate c source code.
     def FunCode_Translation(self):
