@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-20 21:18:40
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-05 22:05:21
+LastEditTime: 2022-12-06 23:24:08
 FilePath: \C-star\pkg.py
 Description: 
     一些类型定义 & 枚举
@@ -53,7 +53,7 @@ class MathematicalTypes(Enum):
     AND = "&"
     OR = "|"
     XOR = "^"
-    ROC = "~"
+    # ROC = "~"
     SRL = ">>"
     SLL = "<<"
 
@@ -69,7 +69,7 @@ class AssignementTypes(Enum):
     ANDASSIGNE = "&="
     ORASSIGNE = "|="
     XORASSIGNE = "^="
-    ROCASSIGNE = "~="
+    # ROCASSIGNE = "~="
     SRLASSIGNE = ">>="
     SLLASSIGNE = "<<="
 
