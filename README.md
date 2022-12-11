@@ -12,6 +12,6 @@ It will generate a C file, default filename is main.c. You can use argment `--o`
 
 # Check outfile
 
-> gcc main.c  
-> ./a.out  
+> \> gcc main.c  
+> \> ./a.out  
 > RESULT : 7F9F8E97  
