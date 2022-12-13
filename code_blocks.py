@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-11-26 23:53:50
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-04 23:18:37
+LastEditTime: 2022-12-13 22:10:35
 FilePath: \C-star\code_blocks.py
 Description: 
     Code Blocks 
@@ -42,6 +42,9 @@ class CodeBlock:
     
     # generate statements
     def Gen_Block_statements(self):
+        # do nothing while available vars just one
+        if len(self.var_can_used_block) <2:
+            return
         statements_num = random.randint(1, 5)
         for i in range(statements_num):
             state = Statements()

@@ -2,7 +2,7 @@
 Author: joessem jxxclj@gmail.com
 Date: 2022-12-04 20:43:10
 LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-11 22:45:57
+LastEditTime: 2022-12-13 22:19:29
 FilePath: \C-star\function.py
 Description: 
 
@@ -11,6 +11,7 @@ Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved.
 import random
 import pdb
 
+from config import args
 from code_statements import *
 from code_blocks import  CodeBlock
 from pkg import *
@@ -35,7 +36,9 @@ class FunctionClass:
         self.function_type = VarTypes.INT
         tmp = self.function_type + " " + self.function_name + "() {"
         self.function_code.append(tmp)
-        self.block_num = random.randint(1, 5)
+        self.min_block = (args.complexity) * 5
+        self.max_block = (args.complexity + 1) * 5
+        self.block_num = random.randint(self.min_block, self.max_block)
         for i in range(self.block_num):
             self.Gen_code_block()
         # block => c code
