@@ -19,7 +19,6 @@ class Var_t:
         self.min = None
         self.max = None
         self.var_name = ""
-        # type分为固定与可变的，变量的类型是固定的，临时运算中生成得对象类型是可变的
         self.type_name = ""
         # variable valid range
         self.valid_range = None
