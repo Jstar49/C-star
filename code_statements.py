@@ -21,6 +21,8 @@ class ArithmeticsTree:
         # is leaf node ?
         self.is_leaf = False
         self.level = 0
+        # real_node_cvalue,include value and type
+        self.c_value = 0
 
 # 
 class RandomArithmetics:
@@ -53,6 +55,9 @@ class Assignement:
         self.state_c_code = ""
         self.state_c_code += self.parents_var.var_name + " "
         self.var_can_used = []
+        
+        #TODO:debug use
+        self.node_count = 0
     
     # gen right
     def Gen_Assigned_And_children(self, var_can_used=[]):
@@ -71,11 +76,18 @@ class Assignement:
         self.Inorder_ArithmeticsTree(root_node)
         self.state_c_code += ";"
         # print(self.state_c_code)
+        
+        #TODO:DEBUG
+        print(self.node_count)
+        print(root_node.c_value)
 
     # Gen a binary tree, max level < max_level
     def Gen_RandomTree_By_Level(self, node, max_level, level):
         if node.is_leaf:
             node.value = random.choice(self.var_can_used)
+            #TODO:DEBUG
+            node.c_value = 1
+            self.node_count += 1
             return
         # left node
         node.left = ArithmeticsTree()
@@ -92,6 +104,9 @@ class Assignement:
             node.right.is_leaf = True
         self.Gen_RandomTree_By_Level(node.left, max_level, level + 1)
         self.Gen_RandomTree_By_Level(node.right, max_level, level + 1)
+        #TODO:需要处理运算符与规则
+        node.c_value = node.left.c_value+node.right.c_value
+        
 
     def Inorder_ArithmeticsTree(self, node):
         if node.is_leaf:
