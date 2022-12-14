@@ -42,6 +42,7 @@ class CodeBlock:
     
     # generate statements
     def Gen_Block_statements(self):
+        self.Generate_Init_Vars_Source_Code()
         statements_num = random.randint(1, 5)
         for i in range(statements_num):
             state = Statements()
@@ -54,7 +55,6 @@ class CodeBlock:
         tmp = f'''/* ===== Block {self.block_id} ===== */'''
         self.block_code.append(tmp)
         # generate init vars
-        self.Generate_Init_Vars_Source_Code()
         # statements
         for i in range(len(self.block_statements)):
             self.block_code.append(self.block_statements[i].c_code)

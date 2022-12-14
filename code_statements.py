@@ -74,8 +74,7 @@ class Assignement:
           self.state_c_code = self.state_c_code[:-1]+"+1;"
         
         if self.parents_var.var_name=="result":
-          print(self.parents_var.var_name,"is")
-          print(self.parents_var.val)
+          print(self.parents_var.var_name,"is",self.parents_var.val)
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):

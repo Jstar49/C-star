@@ -63,7 +63,7 @@ class FunctionClass:
             tmp_c = Assignement(parents_var=self.funtion_ret)
             tmp_c.Gen_Assigned_And_children(self.function_var_backup)
             self.function_code.append(INDENT + tmp_c.state_c_code)
-            tmp_c = f'''printf("RESULT : %llu\\n", result);'''
+            tmp_c = f'''printf("RESULT : %lld\\n", result);'''
             self.function_code.append(INDENT + tmp_c)
         else:
             pass
