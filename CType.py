@@ -76,7 +76,7 @@ class CVal:
 
     # 已经能获得计算完毕后自己的类型了
     new_type_name = get_return_type(self._type_name, cval_obj._type_name)
-    cal_func.restype = getattr(ctypes, VarType2CType[self._type_name])
+    cal_func.restype = getattr(ctypes, VarType2CType[new_type_name])
     new_c_value = cal_func(a, b)
 
     result = CVal()

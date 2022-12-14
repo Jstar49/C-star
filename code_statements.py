@@ -75,7 +75,7 @@ class Assignement:
         
         if self.parents_var.var_name=="result":
           print(self.parents_var.var_name,"is")
-          print(hex(self.parents_var.val))
+          print(self.parents_var.val)
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):
