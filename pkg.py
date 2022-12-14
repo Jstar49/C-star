@@ -25,7 +25,7 @@ def Get_BLOCKID():
 # data types
 @unique
 class VarTypes(Enum):
-    VOID = "void"
+    # VOID = "void"
     BOOL = "bool"
     UCHAR = "unsigned char"
     CHAR = "char"
@@ -37,8 +37,8 @@ class VarTypes(Enum):
     LONG = "long"
     ULONGLONG = "unsigned long long"
     LONGLONG = "long long"
-    FLOAT = "float"
-    DOUBLE = "double"
+    # FLOAT = "float"
+    # DOUBLE = "double"
 
 # Arithmetic operation
 @unique
@@ -99,3 +99,5 @@ class TypeRanges:
     LONG_MAX = (1 << 31) - 1 if args.target == 32 else (1 << 63) - 1
     LONGLONG_MIN = - (1 << 63)
     LONGLONG_MAX = (1 << 63) - 1
+    ULONGLONG_MIN = 0
+    ULONGLONG_MAX = (1 << 64) - 1

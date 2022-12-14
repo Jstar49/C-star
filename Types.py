@@ -119,13 +119,31 @@ class LLong_t(Var_t):
         self.type_name = VarTypes.LONGLONG
         # self.Random_values()
 
+# unsigned long long class
+class ULLong_t(Var_t):
+    def __init__(self) -> None:
+        super().__init__()
+        self.min = TypeRanges.ULONGLONG_MIN
+        self.max = TypeRanges.ULONGLONG_MAX
+        self.type_name = VarTypes.ULONGLONG
+        # self.Random_values()
+
 # return a random data type
 def Get_Random_Type_Var():
     type_list =  [Char_t, UChar_t, Short_t, UShort_t, Int_t, 
-                UInt_t, Long_t, ULong_t, LLong_t]
+                UInt_t, Long_t, ULong_t, LLong_t, ULLong_t]
     tmp_val = random.choice(type_list)()
     tmp_val.Random_values()
     # print(type(tmp_val), tmp_val.val)
+    return tmp_val
+
+def Get_Var_By_Type(tp):
+    typedict = {"bool": Bool_t, "unsigned char": UChar_t, "char": Char_t, 
+                "unsigned short": UShort_t, "short": Short_t, "unsigned int": UInt_t, 
+                "int": Int_t, "unsigned long": ULong_t, "long": Long_t, 
+                "unsigned long long": ULLong_t, "long long": LLong_t}
+    tmp_val = typedict[tp]()
+    tmp_val.Random_values()
     return tmp_val
 
 # Get_Random_Type_Var()
