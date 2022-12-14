@@ -141,3 +141,20 @@ VarPriority2Type = {
     5: VarTypes.LONGLONG,
     6: VarTypes.ULONGLONG,
 }
+
+def get_return_type(type1:VarTypes, type2:VarTypes):
+  # 等级低于int的操作数，运算时全会被当作int
+  # 等级高于int的操作数，大体上要同时符合这个要求
+    # 优先无符号，同时优先更长。都要满足
+  
+  priority1 = VarTypeCalPriority[type1]
+  priority2 = VarTypeCalPriority[type2]
+  priority1 = max(1, priority1)
+  priority2 = max(1, priority2)
+  max_priority = max(priority1,priority2)
+  uflag = False
+  if priority1%2==0 or priority2%2==0:
+    uflag = True
+  if max_priority%2!=0 and uflag:
+    max_priority+=1
+  return VarPriority2Type[max_priority]

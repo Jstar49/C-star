@@ -3,7 +3,7 @@ import platform
 import os
 from pkg import MathematicalTypes, VarTypes
 from operator import methodcaller
-from pkg import VarType2CType, MathematicalTypes2FuncOp, VarTypeCalPriority, VarPriority2Type
+from pkg import VarType2CType, MathematicalTypes2FuncOp, VarTypeCalPriority, VarPriority2Type, get_return_type
 
 cfunction = None
 if platform.system().lower() == 'windows':
@@ -19,12 +19,6 @@ elif platform.system().lower() == 'linux':
 else:
   raise Exception("Unknow platform")
 print("c_cal dll/so load")
-
-
-def get_return_type(type1, type2):
-  priority1 = VarTypeCalPriority[type1]
-  priority2 = VarTypeCalPriority[type2]
-  return VarPriority2Type[max(max(1, priority1), max(1, priority2))]
 
 
 class CVal:

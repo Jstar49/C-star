@@ -560,15 +560,15 @@ unsigned int unsigned_int_W_unsigned_int_div(unsigned int a,unsigned int b);
 
 unsigned int unsigned_int_W_unsigned_int_rem(unsigned int a,unsigned int b);
 
-long unsigned_int_W_long_add(unsigned int a,long b);
+unsigned long unsigned_int_W_long_add(unsigned int a,long b);
 
-long unsigned_int_W_long_sub(unsigned int a,long b);
+unsigned long unsigned_int_W_long_sub(unsigned int a,long b);
 
-long unsigned_int_W_long_mul(unsigned int a,long b);
+unsigned long unsigned_int_W_long_mul(unsigned int a,long b);
 
-long unsigned_int_W_long_div(unsigned int a,long b);
+unsigned long unsigned_int_W_long_div(unsigned int a,long b);
 
-long unsigned_int_W_long_rem(unsigned int a,long b);
+unsigned long unsigned_int_W_long_rem(unsigned int a,long b);
 
 unsigned long unsigned_int_W_unsigned_long_add(unsigned int a,unsigned long b);
 
@@ -580,15 +580,15 @@ unsigned long unsigned_int_W_unsigned_long_div(unsigned int a,unsigned long b);
 
 unsigned long unsigned_int_W_unsigned_long_rem(unsigned int a,unsigned long b);
 
-long long unsigned_int_W_long_long_add(unsigned int a,long long b);
+unsigned long long unsigned_int_W_long_long_add(unsigned int a,long long b);
 
-long long unsigned_int_W_long_long_sub(unsigned int a,long long b);
+unsigned long long unsigned_int_W_long_long_sub(unsigned int a,long long b);
 
-long long unsigned_int_W_long_long_mul(unsigned int a,long long b);
+unsigned long long unsigned_int_W_long_long_mul(unsigned int a,long long b);
 
-long long unsigned_int_W_long_long_div(unsigned int a,long long b);
+unsigned long long unsigned_int_W_long_long_div(unsigned int a,long long b);
 
-long long unsigned_int_W_long_long_rem(unsigned int a,long long b);
+unsigned long long unsigned_int_W_long_long_rem(unsigned int a,long long b);
 
 unsigned long long unsigned_int_W_unsigned_long_long_add(unsigned int a,unsigned long long b);
 
@@ -650,15 +650,15 @@ long long_W_int_div(long a,int b);
 
 long long_W_int_rem(long a,int b);
 
-long long_W_unsigned_int_add(long a,unsigned int b);
+unsigned long long_W_unsigned_int_add(long a,unsigned int b);
 
-long long_W_unsigned_int_sub(long a,unsigned int b);
+unsigned long long_W_unsigned_int_sub(long a,unsigned int b);
 
-long long_W_unsigned_int_mul(long a,unsigned int b);
+unsigned long long_W_unsigned_int_mul(long a,unsigned int b);
 
-long long_W_unsigned_int_div(long a,unsigned int b);
+unsigned long long_W_unsigned_int_div(long a,unsigned int b);
 
-long long_W_unsigned_int_rem(long a,unsigned int b);
+unsigned long long_W_unsigned_int_rem(long a,unsigned int b);
 
 long long_W_long_add(long a,long b);
 
@@ -780,15 +780,15 @@ unsigned long unsigned_long_W_unsigned_long_div(unsigned long a,unsigned long b)
 
 unsigned long unsigned_long_W_unsigned_long_rem(unsigned long a,unsigned long b);
 
-long long unsigned_long_W_long_long_add(unsigned long a,long long b);
+unsigned long long unsigned_long_W_long_long_add(unsigned long a,long long b);
 
-long long unsigned_long_W_long_long_sub(unsigned long a,long long b);
+unsigned long long unsigned_long_W_long_long_sub(unsigned long a,long long b);
 
-long long unsigned_long_W_long_long_mul(unsigned long a,long long b);
+unsigned long long unsigned_long_W_long_long_mul(unsigned long a,long long b);
 
-long long unsigned_long_W_long_long_div(unsigned long a,long long b);
+unsigned long long unsigned_long_W_long_long_div(unsigned long a,long long b);
 
-long long unsigned_long_W_long_long_rem(unsigned long a,long long b);
+unsigned long long unsigned_long_W_long_long_rem(unsigned long a,long long b);
 
 unsigned long long unsigned_long_W_unsigned_long_long_add(unsigned long a,unsigned long long b);
 
@@ -850,15 +850,15 @@ long long long_long_W_int_div(long long a,int b);
 
 long long long_long_W_int_rem(long long a,int b);
 
-long long long_long_W_unsigned_int_add(long long a,unsigned int b);
+unsigned long long long_long_W_unsigned_int_add(long long a,unsigned int b);
 
-long long long_long_W_unsigned_int_sub(long long a,unsigned int b);
+unsigned long long long_long_W_unsigned_int_sub(long long a,unsigned int b);
 
-long long long_long_W_unsigned_int_mul(long long a,unsigned int b);
+unsigned long long long_long_W_unsigned_int_mul(long long a,unsigned int b);
 
-long long long_long_W_unsigned_int_div(long long a,unsigned int b);
+unsigned long long long_long_W_unsigned_int_div(long long a,unsigned int b);
 
-long long long_long_W_unsigned_int_rem(long long a,unsigned int b);
+unsigned long long long_long_W_unsigned_int_rem(long long a,unsigned int b);
 
 long long long_long_W_long_add(long long a,long b);
 
@@ -870,15 +870,15 @@ long long long_long_W_long_div(long long a,long b);
 
 long long long_long_W_long_rem(long long a,long b);
 
-long long long_long_W_unsigned_long_add(long long a,unsigned long b);
+unsigned long long long_long_W_unsigned_long_add(long long a,unsigned long b);
 
-long long long_long_W_unsigned_long_sub(long long a,unsigned long b);
+unsigned long long long_long_W_unsigned_long_sub(long long a,unsigned long b);
 
-long long long_long_W_unsigned_long_mul(long long a,unsigned long b);
+unsigned long long long_long_W_unsigned_long_mul(long long a,unsigned long b);
 
-long long long_long_W_unsigned_long_div(long long a,unsigned long b);
+unsigned long long long_long_W_unsigned_long_div(long long a,unsigned long b);
 
-long long long_long_W_unsigned_long_rem(long long a,unsigned long b);
+unsigned long long long_long_W_unsigned_long_rem(long long a,unsigned long b);
 
 long long long_long_W_long_long_add(long long a,long long b);
 
