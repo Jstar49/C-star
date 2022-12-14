@@ -59,8 +59,6 @@ class Assignement:
         self.state_c_code += self.parents_var.var_name + " "
         self.var_can_used = []
         
-        #TODO:debug use
-        self.node_count = 0
     
     # gen right
     def Gen_Assigned_And_children(self, var_can_used=[]):
@@ -69,18 +67,25 @@ class Assignement:
         self.state_c_code += self.assignement_type.value + " "
         # gen random arithmetics
         self.Gen_RandomArithmetics()
+        
+        self.parents_var.val = self.root_node.c_value.ToValValue(self.parents_var.type_name)
+        if self.parents_var.val==0:
+          self.parents_var.val+=1
+          self.state_c_code = self.state_c_code[:-1]+"+1;"
+        
+        if self.parents_var.var_name=="result":
+          print(self.parents_var.var_name,"is")
+          print(hex(self.parents_var.val))
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):
-        root_node = ArithmeticsTree()
-        root_node.value = random.choice(list(MathematicalTypes))
-        self.Gen_RandomTree_By_Level(root_node, 5, 0)
+        self.root_node = ArithmeticsTree()
+        self.root_node.value = random.choice(list(MathematicalTypes))
+        self.Gen_RandomTree_By_Level(self.root_node, 5, 0)
         # inorder traversal to get a arithmetics statement
-        self.Inorder_ArithmeticsTree(root_node)
+        self.Inorder_ArithmeticsTree(self.root_node)
         self.state_c_code += ";"
         # print(self.state_c_code)
-        
-        #TODO:DEBUG
         
 
     # Gen a binary tree, max level < max_level
@@ -107,11 +112,10 @@ class Assignement:
         
         # 对左右两端c_value进行计算
         if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
-          if node.right.c_value.DetectAndHandZero():
+          if node.right.c_value.DetectZero():
             node.zero_flag = True
+            node.right.c_value = node.right.c_value.NewAddOneCVal()
         node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
-        
-        # node.c_value = node.left.c_value+node.right.c_value
         
 
     def Inorder_ArithmeticsTree(self, node):
