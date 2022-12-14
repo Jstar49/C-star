@@ -72,5 +72,5 @@ class CodeBlock:
         # print(" Generate_Init_Vars_Source_Code ", self.block_new_var_list)
         for var in self.block_new_var_list:
             # print(var)
-            tmp_str = var.type_name + " " + var.var_name + " = " + str(var.val) +";"
+            tmp_str = var.type_name.value + " " + var.var_name + " = " + str(var.val) +";"
             self.block_code.append(tmp_str)

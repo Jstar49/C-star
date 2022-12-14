@@ -26,6 +26,10 @@ class Gen_Program:
         self.program_code = []
         # self.program_result_vars = []
         self.result_variable = None
+        self.function_num = 0
+        # if complexity >= 3, add functions
+        if args.complexity >= 3:
+            self.function_num = random.randint(2, args.complexity)
 
     # main function
     def main(self):
@@ -33,6 +37,8 @@ class Gen_Program:
         self.Gen_includes()
         # result variable
         self.Gen_result_variable()
+        # generate some functions
+        self.Gen_Functions()
         # generate main function
         self.Gen_main_function()
     
@@ -50,6 +56,17 @@ class Gen_Program:
                 + str(self.result_variable.val) + ";"
         self.program_code.append(tmp_c)
         self.global_vars.append(self.result_variable)
+    
+    # generate some functions
+    def Gen_Functions(self):
+        for i in range(self.function_num):
+            fun_name = f"func_{i}"
+            tmp_func = FunctionClass()
+            tmp_func.function_name = fun_name
+            tmp_func.main()
+            self.functions.append(tmp_func)
+            self.program_code += tmp_func.function_code
+
 
     # build main function
     def Gen_main_function(self):

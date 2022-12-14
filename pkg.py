@@ -23,7 +23,8 @@ def Get_BLOCKID():
     return BLOCK_ID
 
 # data types
-class VarTypes:
+@unique
+class VarTypes(Enum):
     VOID = "void"
     BOOL = "bool"
     UCHAR = "unsigned char"

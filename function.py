@@ -28,13 +28,18 @@ class FunctionClass:
         self.funtion_ret = None
     
     def main(self):
-        pass
+        # function return type
+        self.function_type = random.choice(list(VarTypes))
+        tmp = self.function_type.value + " " + self.function_name + "() {"
+        self.function_code.append(tmp)
+
+        self.function_code.append("}")
     
     # build main function
     def Build_main_function(self):
         self.function_name = "main"
         self.function_type = VarTypes.INT
-        tmp = self.function_type + " " + self.function_name + "() {"
+        tmp = self.function_type.value + " " + self.function_name + "() {"
         self.function_code.append(tmp)
         self.min_block = (args.complexity) * 5
         self.max_block = (args.complexity + 1) * 5

@@ -66,7 +66,9 @@ class Assignement:
     def Gen_RandomArithmetics(self):
         root_node = ArithmeticsTree()
         root_node.value = random.choice(list(MathematicalTypes))
-        self.Gen_RandomTree_By_Level(root_node, 5, 0)
+        treeDeep = 5
+        # TODO : set treeDeep relate to complexity
+        self.Gen_RandomTree_By_Level(root_node, treeDeep, 0)
         # inorder traversal to get a arithmetics statement
         self.Inorder_ArithmeticsTree(root_node)
         self.state_c_code += ";"
