@@ -11,6 +11,7 @@ Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved.
 '''
 import random
 from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
+from CType import CVal
 
 # binary tree  class
 class ArithmeticsTree:
@@ -22,7 +23,9 @@ class ArithmeticsTree:
         self.is_leaf = False
         self.level = 0
         # real_node_cvalue,include value and type
-        self.c_value = 0
+        self.c_value = None
+        
+        self.zero_flag = False
 
 # 
 class RandomArithmetics:
@@ -78,16 +81,13 @@ class Assignement:
         # print(self.state_c_code)
         
         #TODO:DEBUG
-        print(self.node_count)
-        print(root_node.c_value)
+        
 
     # Gen a binary tree, max level < max_level
     def Gen_RandomTree_By_Level(self, node, max_level, level):
         if node.is_leaf:
             node.value = random.choice(self.var_can_used)
-            #TODO:DEBUG
-            node.c_value = 1
-            self.node_count += 1
+            node.c_value = CVal(node.value)
             return
         # left node
         node.left = ArithmeticsTree()
@@ -104,8 +104,14 @@ class Assignement:
             node.right.is_leaf = True
         self.Gen_RandomTree_By_Level(node.left, max_level, level + 1)
         self.Gen_RandomTree_By_Level(node.right, max_level, level + 1)
-        #TODO:需要处理运算符与规则
-        node.c_value = node.left.c_value+node.right.c_value
+        
+        # 对左右两端c_value进行计算
+        if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
+          if node.right.c_value.DetectAndHandZero():
+            node.zero_flag = True
+        node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
+        
+        # node.c_value = node.left.c_value+node.right.c_value
         
 
     def Inorder_ArithmeticsTree(self, node):
@@ -115,7 +121,11 @@ class Assignement:
         self.state_c_code += "("
         self.Inorder_ArithmeticsTree(node.left)
         self.state_c_code += node.value.value
+        if node.zero_flag:
+          self.state_c_code += "("
         self.Inorder_ArithmeticsTree(node.right)
+        if node.zero_flag:
+          self.state_c_code += "+1)"
         self.state_c_code += ")"
     
     # assignement statement to C code

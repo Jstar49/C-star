@@ -1,5 +1,9 @@
 *.pyc
 test*
 cstar/
-seearch.txt
+search.txt
 main.c
+test.c
+*.so
+*.dll
+*.out
