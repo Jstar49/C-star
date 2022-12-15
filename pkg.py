@@ -142,19 +142,27 @@ VarPriority2Type = {
     6: VarTypes.ULONGLONG,
 }
 
-def get_return_type(type1:VarTypes, type2:VarTypes):
-  # 等级低于int的操作数，运算时全会被当作int
-  # 等级高于int的操作数，大体上要同时符合这个要求
-    # 优先无符号，同时优先更长。都要满足
-  
-  priority1 = VarTypeCalPriority[type1]
-  priority2 = VarTypeCalPriority[type2]
-  priority1 = max(1, priority1)
-  priority2 = max(1, priority2)
-  max_priority = max(priority1,priority2)
-  uflag = False
-  if priority1%2==0 or priority2%2==0:
-    uflag = True
-  if max_priority%2!=0 and uflag:
-    max_priority+=1
-  return VarPriority2Type[max_priority]
+def get_return_type(type1:VarTypes, type2:VarTypes,val1=None,val2=None):
+  # 参考这个 https://stackoverflow.com/questions/22358864/operations-with-different-int-types
+  types = [type1,type2]
+  if type1!=type2:
+    vals = {
+      type1:val1,
+      type2:val2
+    }
+  if VarTypes.ULONGLONG in types:
+    return VarTypes.ULONGLONG
+  elif VarTypes.LONGLONG in types:
+    return VarTypes.LONGLONG
+  elif VarTypes.ULONG in types:
+    return VarTypes.ULONG
+  elif VarTypes.UINT in types and VarTypes.LONG in types:
+    # VarTypes.UINT怎能不可转换为long呢？可能看平台吧
+    # TODO:need fix
+    return VarTypes.LONG
+  elif VarTypes.LONG in types:
+    return VarTypes.LONG
+  elif VarTypes.UINT in types:
+    return VarTypes.UINT
+  else:
+    return VarTypes.INT

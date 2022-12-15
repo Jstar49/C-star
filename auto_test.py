@@ -7,7 +7,7 @@ test_time = 100
 success_count = 0
 err_seed_list = []
 for i in trange(test_time):
-  seed = random.randint(-2**32,2**32)
+  seed = i
   p = subprocess.Popen(f"python run.py --seed {seed}",shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   py_output = str(p.stdout.read())
   py_result = re.search(r"result is (.*)\\n", py_output)
