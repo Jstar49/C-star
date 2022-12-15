@@ -3,7 +3,7 @@ import random
 import re
 from tqdm import trange
 
-test_time = 100
+test_time = 2000
 success_count = 0
 err_seed_list = []
 for i in trange(test_time):

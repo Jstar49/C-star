@@ -38,6 +38,35 @@ class VarTypes:
     LONGLONG = "long_long"
     FLOAT = "float"
     DOUBLE = "double"
+  
+  
+def GetVarTypesBit(stype,platform="linux",bit=64):
+  if platform=="linux" and bit==64:
+    VarType2Bit = {
+        VarTypes.CHAR:1,
+        VarTypes.UCHAR:1,
+        VarTypes.SHORT:2,
+        VarTypes.USHORT:2,
+        VarTypes.INT:4,
+        VarTypes.UINT:4,
+        VarTypes.LONG:8,
+        VarTypes.ULONG:8,
+        VarTypes.LONGLONG:8,
+        VarTypes.ULONGLONG:8
+    }
+    return VarType2Bit[stype]
+  else:
+    raise NotImplementedError()
+
+VarTypesUSign = [
+  VarTypes.UCHAR,
+  VarTypes.USHORT,
+  VarTypes.UINT,
+  VarTypes.ULONG,
+  VarTypes.ULONGLONG
+]
+
+
 
 # Arithmetic operation
 @unique
@@ -142,27 +171,29 @@ VarPriority2Type = {
     6: VarTypes.ULONGLONG,
 }
 
-def get_return_type(type1:VarTypes, type2:VarTypes,val1=None,val2=None):
-  # 参考这个 https://stackoverflow.com/questions/22358864/operations-with-different-int-types
+
+def get_return_type(type1:VarTypes, type2:VarTypes):
+  # 参考这个 https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
+  # 默认c11标准
+  # 只适合linux64,不同平台位宽参考如下https://img.jbzj.com/file_images/article/202111/2021111010230228.png
+  # 短类型需先转为int
+  type1 = VarPriority2Type[max(1,VarTypeCalPriority[type1])]
+  type2 = VarPriority2Type[max(1,VarTypeCalPriority[type2])]
   types = [type1,type2]
-  if type1!=type2:
-    vals = {
-      type1:val1,
-      type2:val2
-    }
-  if VarTypes.ULONGLONG in types:
-    return VarTypes.ULONGLONG
-  elif VarTypes.LONGLONG in types:
-    return VarTypes.LONGLONG
-  elif VarTypes.ULONG in types:
-    return VarTypes.ULONG
-  elif VarTypes.UINT in types and VarTypes.LONG in types:
-    # VarTypes.UINT怎能不可转换为long呢？可能看平台吧
-    # TODO:need fix
-    return VarTypes.LONG
-  elif VarTypes.LONG in types:
-    return VarTypes.LONG
-  elif VarTypes.UINT in types:
-    return VarTypes.UINT
+  if type1==type2:
+    return type1
+  elif type1 in VarTypesUSign and type2 in VarTypesUSign or type1 not in VarTypesUSign and type2 not in VarTypesUSign:
+    return VarPriority2Type[max(VarTypeCalPriority[type1],VarTypeCalPriority[type2])]
   else:
-    return VarTypes.INT
+    stype = type1 if type1 not in VarTypesUSign else type2
+    utype = type1 if type1 in VarTypesUSign else type2
+    if VarTypeCalPriority[utype]>VarTypeCalPriority[stype]:
+      return utype
+    elif GetVarTypesBit(stype)>GetVarTypesBit(utype):# 要求有符号能完全表达无符号所有值，则必须位宽更大
+      return stype
+    else:
+      return VarPriority2Type[VarTypeCalPriority[stype]+1]
+    
+if __name__=="__main__":
+  result = get_return_type(VarTypes.ULONG, VarTypes.LONGLONG)
+  print(result)
