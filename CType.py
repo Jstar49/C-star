@@ -33,14 +33,15 @@ class CVal:
   # 根据type返回一个正确的Var_t的val值
   # 并不确定这一步走c是否是必须的，只是谨慎起见罢了
   def ToValValue(self, val_type: VarTypes):
-    if val_type == VarTypes.BOOL or val_type == VarTypes.VOID:
+    # if val_type == VarTypes.BOOL or val_type == VarTypes.VOID:
+    if val_type == VarTypes.BOOL:
       raise Exception("Why we use such type!")
 
     actype = getattr(ctypes, VarType2CType[self._type_name])
     a = actype(self._c_value)
     outer_ctype = getattr(ctypes, VarType2CType[val_type])
 
-    cal_func = getattr(cfunction, f"cast_{self._type_name}_T_{val_type}")
+    cal_func = getattr(cfunction, f"cast_{self._type_name.value}_T_{val_type.value}")
     cal_func.argtypes = [actype]
     cal_func.restype = outer_ctype
     val = cal_func(a)
@@ -65,7 +66,7 @@ class CVal:
     b = bctype(cval_obj._c_value)
 
     cal_func = getattr(
-        cfunction, f"{self._type_name}_W_{cval_obj._type_name}_{MathematicalTypes2FuncOp[op]}")
+        cfunction, f"{self._type_name.value}_W_{cval_obj._type_name.value}_{MathematicalTypes2FuncOp[op]}")
     cal_func.argtypes = [actype, bctype]
 
     # 已经能获得计算完毕后自己的类型了
