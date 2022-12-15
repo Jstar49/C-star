@@ -1,13 +1,3 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-26 23:53:50
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-13 22:10:35
-FilePath: \C-star\code_blocks.py
-Description: 
-    Code Blocks 
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
 
 from Types import *
 from code_statements import *
@@ -42,6 +32,8 @@ class CodeBlock:
     
     # generate statements
     def Gen_Block_statements(self):
+        # generate init vars
+        self.Generate_Init_Vars_Source_Code()
         # do nothing while available vars just one
         if len(self.var_can_used_block) <2:
             return
@@ -56,8 +48,6 @@ class CodeBlock:
     def Generate_C_Source_CodeBlock(self):
         tmp = f'''/* ===== Block {self.block_id} ===== */'''
         self.block_code.append(tmp)
-        # generate init vars
-        self.Generate_Init_Vars_Source_Code()
         # statements
         for i in range(len(self.block_statements)):
             self.block_code.append(self.block_statements[i].c_code)
@@ -72,5 +62,5 @@ class CodeBlock:
         # print(" Generate_Init_Vars_Source_Code ", self.block_new_var_list)
         for var in self.block_new_var_list:
             # print(var)
-            tmp_str = var.type_name.value + " " + var.var_name + " = " + str(var.val) +";"
+            tmp_str = var.type_name.value.replace("_"," ") + " " + var.var_name + " = " + str(var.val) +";"
             self.block_code.append(tmp_str)

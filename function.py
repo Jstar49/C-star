@@ -1,13 +1,3 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-12-04 20:43:10
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-13 22:19:29
-FilePath: \C-star\function.py
-Description: 
-
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
 import random
 import pdb
 
@@ -106,7 +96,7 @@ class FunctionClass:
         tmp_c.Gen_Assigned_And_children(self.function_var_backup)
         self.function_code.append(INDENT + tmp_c.state_c_code)
         if self.function_name == "main":
-            tmp_c = f'''printf("RESULT : %4X\\n", result);'''
+            tmp_c = f'''printf("RESULT : %lld\\n", result);'''
             self.function_code.append(INDENT + tmp_c)
         else:
             tmp_c = f'''return ret;'''
