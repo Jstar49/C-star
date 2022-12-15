@@ -1,1 +1,9 @@
 *.pyc
+test*
+cstar/
+search.txt
+main.c
+test.c
+*.so
+*.dll
+*.out

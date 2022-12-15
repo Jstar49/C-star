@@ -27,6 +27,7 @@ class Var_t:
     def Random_values(self):
         # print(self.min, self.max)
         self.val = random.randint(self.min, self.max)
+        
 
 # bool class
 class Bool_t(Var_t):

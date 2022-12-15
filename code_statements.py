@@ -1,16 +1,6 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-27 23:10:15
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-04 00:33:45
-FilePath: \C-star\code_statements.py
-Description: 
-    Generate C statements
-
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
 import random
 from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
+from CType import CVal
 
 # binary tree  class
 class ArithmeticsTree:
@@ -21,6 +11,10 @@ class ArithmeticsTree:
         # is leaf node ?
         self.is_leaf = False
         self.level = 0
+        # real_node_cvalue,include value and type
+        self.c_value = None
+        
+        self.zero_flag = False
 
 # 
 class RandomArithmetics:
@@ -53,6 +47,7 @@ class Assignement:
         self.state_c_code = ""
         self.state_c_code += self.parents_var.var_name + " "
         self.var_can_used = []
+        
     
     # gen right
     def Gen_Assigned_And_children(self, var_can_used=[]):
@@ -61,23 +56,33 @@ class Assignement:
         self.state_c_code += self.assignement_type.value + " "
         # gen random arithmetics
         self.Gen_RandomArithmetics()
+        
+        self.parents_var.val = self.root_node.c_value.ToValValue(self.parents_var.type_name)
+        if self.parents_var.val==0:
+          self.parents_var.val+=1
+          self.state_c_code = self.state_c_code[:-1]+"+1;"
+        
+        if self.parents_var.var_name=="result":
+          print(self.parents_var.var_name,"is",self.parents_var.val)
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):
-        root_node = ArithmeticsTree()
-        root_node.value = random.choice(list(MathematicalTypes))
+        self.root_node = ArithmeticsTree()
+        self.root_node.value = random.choice(list(MathematicalTypes))
         treeDeep = 5
         # TODO : set treeDeep relate to complexity
-        self.Gen_RandomTree_By_Level(root_node, treeDeep, 0)
+        self.Gen_RandomTree_By_Level(self.root_node, 5, 0)
         # inorder traversal to get a arithmetics statement
-        self.Inorder_ArithmeticsTree(root_node)
+        self.Inorder_ArithmeticsTree(self.root_node)
         self.state_c_code += ";"
         # print(self.state_c_code)
+        
 
     # Gen a binary tree, max level < max_level
     def Gen_RandomTree_By_Level(self, node, max_level, level):
         if node.is_leaf:
             node.value = random.choice(self.var_can_used)
+            node.c_value = CVal(node.value)
             return
         # left node
         node.left = ArithmeticsTree()
@@ -94,6 +99,14 @@ class Assignement:
             node.right.is_leaf = True
         self.Gen_RandomTree_By_Level(node.left, max_level, level + 1)
         self.Gen_RandomTree_By_Level(node.right, max_level, level + 1)
+        
+        # 对左右两端c_value进行计算
+        if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
+          if node.right.c_value.DetectZero():
+            node.zero_flag = True
+            node.right.c_value = node.right.c_value.NewAddOneCVal()
+        node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
+        
 
     def Inorder_ArithmeticsTree(self, node):
         if node.is_leaf:
@@ -102,7 +115,11 @@ class Assignement:
         self.state_c_code += "("
         self.Inorder_ArithmeticsTree(node.left)
         self.state_c_code += node.value.value
+        if node.zero_flag:
+          self.state_c_code += "("
         self.Inorder_ArithmeticsTree(node.right)
+        if node.zero_flag:
+          self.state_c_code += "+1)"
         self.state_c_code += ")"
     
     # assignement statement to C code

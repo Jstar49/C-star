@@ -14,6 +14,7 @@ import sys
 
 from config import args
 from gen_program import Gen_Program
+import random
 
 def main():
     # try:
@@ -22,6 +23,8 @@ def main():
         exit(0)
     if args.o == "":
         print("need a argment : --i <outfile>")
+    if args.seed is not None:
+        random.seed(args.seed)
     gen_program = Gen_Program()
     gen_program.main()
     gen_program.Output()
