@@ -5,7 +5,10 @@ Generate C source code, by python.
 
 > \> git clone https://github.com/Jstar49/C-star.git  
 > \> cd C-star  
-> \> python run.py  
+> \> pip install -r requirements.txt  
+> \> python3 ./setup.py  
+
+# How to use 
 
 It will generate a C file, default filename is main.c. You can use argment `--o` to change the out filename. Such as:  
 > \> python run.py --o test.c  
