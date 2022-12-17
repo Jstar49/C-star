@@ -1,17 +1,7 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-22 21:02:50
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-13 22:36:27
-FilePath: \C-star\run.py
-Description: 
-    Run the program to generate C source code.
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
-
 import os
 import sys
 
+from pkg import *
 from config import args
 from gen_program import Gen_Program
 import random
@@ -25,6 +15,12 @@ def main():
         print("need a argment : --i <outfile>")
     if args.seed is not None:
         random.seed(args.seed)
+    else:
+        seed = random.randrange(sys.maxsize)
+        args.seed = seed
+        random.seed(args.seed)
+    INFO_logging(f"seed : {args.seed}")
+    
     gen_program = Gen_Program()
     gen_program.main()
     gen_program.Output()

@@ -7,6 +7,12 @@ INDENT = "  "
 # block id
 BLOCK_ID = 0
 
+# program info in header
+PROGRAM_INFO = []
+
+def INFO_logging(info):
+  PROGRAM_INFO.append(info)
+
 def Get_BLOCKID():
     global BLOCK_ID
     BLOCK_ID += 1

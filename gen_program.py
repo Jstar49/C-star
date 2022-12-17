@@ -1,17 +1,7 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-28 21:13:49
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-11 22:45:12
-FilePath: \C-star\gen_program.py
-Description: 
-    The main class to generate program.
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
-
 import os
 import random
 
+from pkg import *
 from Types import *
 from config import args
 from code_blocks import  CodeBlock
@@ -78,6 +68,8 @@ class Gen_Program:
 
     # outout c source file
     def Output(self):
+        header_info = ["/* "] + PROGRAM_INFO + ["*/"]
+        self.program_code = header_info + self.program_code
         f = open(self.outfile, "w")
         for line in self.program_code:
             f.write(line + "\n")
