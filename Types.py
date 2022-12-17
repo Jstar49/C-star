@@ -1,14 +1,3 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-26 23:33:51
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-11 21:01:58
-FilePath: \C-star\Types.py
-Description: 
-
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
-
 from pkg import TypeRanges, VarTypes
 import random
 

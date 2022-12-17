@@ -1,14 +1,3 @@
-'''
-Author: joessem jxxclj@gmail.com
-Date: 2022-11-22 23:41:03
-LastEditors: joessem jxxclj@gmail.com
-LastEditTime: 2022-12-13 22:20:47
-FilePath: \C-star\config.py
-Description: 
-    configs
-Copyright (c) 2022 by joessem jxxclj@gmail.com, All Rights Reserved. 
-'''
-
 import argparse
 
 def parse_args():
