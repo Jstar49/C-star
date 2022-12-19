@@ -1,4 +1,6 @@
 import random
+
+from Types import *
 from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
 from CType import CVal
 
@@ -8,6 +10,7 @@ class ArithmeticsTree:
         self.left = None
         self.right = None
         self.value = None
+        self.type = None
         # is leaf node ?
         self.is_leaf = False
         self.level = 0
@@ -81,8 +84,18 @@ class Assignement:
     # Gen a binary tree, max level < max_level
     def Gen_RandomTree_By_Level(self, node, max_level, level):
         if node.is_leaf:
-            node.value = random.choice(self.var_can_used)
-            node.c_value = CVal(node.value)
+            # choice in variable, constant, function call, 
+            i = random.randint(0, 1)
+            # i == 0, set variable
+            if i == 0:
+                node.value = random.choice(self.var_can_used)
+                node.c_value = CVal(node.value)
+            # i == 1, set constant
+            elif i == 1:
+                tmp = Constant_t()
+                tmp.random_const()
+                node.value = tmp
+                node.type = "constant"
             return
         # left node
         node.left = ArithmeticsTree()
@@ -101,15 +114,17 @@ class Assignement:
         self.Gen_RandomTree_By_Level(node.right, max_level, level + 1)
         
         # 对左右两端c_value进行计算
-        if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
-          if node.right.c_value.DetectZero():
-            node.zero_flag = True
-            node.right.c_value = node.right.c_value.NewAddOneCVal()
-        node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
+        # if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
+        #   if node.right.c_value.DetectZero():
+        #     node.zero_flag = True
+        #     node.right.c_value = node.right.c_value.NewAddOneCVal()
+        # node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
         
 
     def Inorder_ArithmeticsTree(self, node):
         if node.is_leaf:
+            print(type(node))
+            # if type(node) == 
             self.state_c_code += node.value.var_name
             return
         self.state_c_code += "("

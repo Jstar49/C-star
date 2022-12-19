@@ -1,6 +1,19 @@
 from pkg import TypeRanges, VarTypes
 import random
 
+# Constant class
+class Constant_t:
+    def __init__(self) -> None:
+        self.is_float = 0
+        self.value = 0
+        self.const_range = [TypeRanges.INT_MIN, TypeRanges.INT_MAX]
+    
+    def random_const(self):
+        if self.is_float:
+            pass
+        else:
+            self.value = random.randint(self.const_range[0], self.const_range[1])
+
 # Base Type class
 class Var_t:
     def __init__(self) -> None:
