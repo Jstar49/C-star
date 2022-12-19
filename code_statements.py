@@ -60,13 +60,13 @@ class Assignement:
         # gen random arithmetics
         self.Gen_RandomArithmetics()
         
-        self.parents_var.val = self.root_node.c_value.ToValValue(self.parents_var.type_name)
-        if self.parents_var.val==0:
-          self.parents_var.val+=1
-          self.state_c_code = self.state_c_code[:-1]+"+1;"
+        # self.parents_var.val = self.root_node.c_value.ToValValue(self.parents_var.type_name)
+        # if self.parents_var.val==0:
+        #   self.parents_var.val+=1
+        #   self.state_c_code = self.state_c_code[:-1]+"+1;"
         
-        if self.parents_var.var_name=="result":
-          print(self.parents_var.var_name,"is",self.parents_var.val)
+        # if self.parents_var.var_name=="result":
+        #   print(self.parents_var.var_name,"is",self.parents_var.val)
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):
@@ -90,6 +90,7 @@ class Assignement:
             if i == 0:
                 node.value = random.choice(self.var_can_used)
                 node.c_value = CVal(node.value)
+                node.type = "variable"
             # i == 1, set constant
             elif i == 1:
                 tmp = Constant_t()
@@ -123,9 +124,16 @@ class Assignement:
 
     def Inorder_ArithmeticsTree(self, node):
         if node.is_leaf:
-            print(type(node))
-            # if type(node) == 
-            self.state_c_code += node.value.var_name
+            print(type(node.value))
+            if node.type == "variable":
+                self.state_c_code += node.value.var_name
+            elif node.type == "constant":
+                tmp = ""
+                if node.value.value < 0:
+                    tmp = f"({str(node.value.value)})"
+                else:
+                    tmp = f"{str(node.value.value)}"
+                self.state_c_code += tmp
             return
         self.state_c_code += "("
         self.Inorder_ArithmeticsTree(node.left)
