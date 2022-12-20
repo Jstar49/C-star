@@ -76,8 +76,10 @@ class Assignement:
         # TODO : set treeDeep relate to complexity
         self.Gen_RandomTree_By_Level(self.root_node, 5, 0)
         # inorder traversal to get a arithmetics statement
-        self.Inorder_ArithmeticsTree(self.root_node)
-        self.state_c_code += ";"
+        tmp = []
+        self.Inorder_ArithmeticsTree(self.root_node, tmp)
+        print("Gen_RandomArithmetics c_state", "".join(tmp))
+        self.state_c_code += "".join(tmp) + ";"
         # print(self.state_c_code)
         
 
@@ -122,28 +124,29 @@ class Assignement:
         # node.c_value = node.left.c_value.Cal(node.right.c_value,node.value)
         
 
-    def Inorder_ArithmeticsTree(self, node):
+    def Inorder_ArithmeticsTree(self, node, c_state):
+        # print("Inorder_ArithmeticsTree c_state", c_state)
         if node.is_leaf:
-            print(type(node.value))
             if node.type == "variable":
-                self.state_c_code += node.value.var_name
+                c_state.append(node.value.var_name)
             elif node.type == "constant":
                 tmp = ""
                 if node.value.value < 0:
                     tmp = f"({str(node.value.value)})"
                 else:
                     tmp = f"{str(node.value.value)}"
-                self.state_c_code += tmp
+                c_state.append(tmp)
             return
-        self.state_c_code += "("
-        self.Inorder_ArithmeticsTree(node.left)
-        self.state_c_code += node.value.value
+        c_state.append("(")
+        self.Inorder_ArithmeticsTree(node.left, c_state)
+        c_state.append(node.value.value)
         if node.zero_flag:
-          self.state_c_code += "("
-        self.Inorder_ArithmeticsTree(node.right)
+          c_state.append("(")
+        self.Inorder_ArithmeticsTree(node.right, c_state)
         if node.zero_flag:
-          self.state_c_code += "+1)"
-        self.state_c_code += ")"
+          c_state.append("+1)")
+        c_state.append(")")
+        # print("Inorder_ArithmeticsTree c_state", c_state)
     
     # assignement statement to C code
     def Gen_Assignement_C_Code(self):
