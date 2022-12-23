@@ -48,7 +48,6 @@ class Assignement:
         self.children_type = None
         # statements C code
         self.state_c_code = ""
-        self.state_c_code += self.parents_var.var_name + " "
         self.var_can_used = []
         
     
@@ -56,7 +55,7 @@ class Assignement:
     def Gen_Assigned_And_children(self, var_can_used=[]):
         self.var_can_used = var_can_used
         self.assignement_type = random.choice(list(AssignementTypes))
-        self.state_c_code += self.assignement_type.value + " "
+        
         # gen random arithmetics
         self.Gen_RandomArithmetics()
         
@@ -79,6 +78,9 @@ class Assignement:
         tmp = []
         self.Inorder_ArithmeticsTree(self.root_node, tmp)
         print("Gen_RandomArithmetics c_state", "".join(tmp))
+        print("self.state_c_code", self.state_c_code)
+        self.state_c_code += self.parents_var.var_name + " "
+        self.state_c_code += self.assignement_type.value + " "
         self.state_c_code += "".join(tmp) + ";"
         # print(self.state_c_code)
         
@@ -91,7 +93,7 @@ class Assignement:
             # i == 0, set variable
             if i == 0:
                 node.value = random.choice(self.var_can_used)
-                node.c_value = CVal(node.value)
+                # node.c_value = CVal(node.value)
                 node.type = "variable"
             # i == 1, set constant
             elif i == 1:
@@ -125,7 +127,7 @@ class Assignement:
         
 
     def Inorder_ArithmeticsTree(self, node, c_state):
-        # print("Inorder_ArithmeticsTree c_state", c_state)
+        
         if node.is_leaf:
             if node.type == "variable":
                 c_state.append(node.value.var_name)
@@ -139,12 +141,26 @@ class Assignement:
             return
         c_state.append("(")
         self.Inorder_ArithmeticsTree(node.left, c_state)
+        print(node.value)
         c_state.append(node.value.value)
-        if node.zero_flag:
-          c_state.append("(")
+        # avoid div/rem zero operator
+        if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
+            right_result = []
+            self.Inorder_ArithmeticsTree(node.right, right_result)
+            print("c_state", c_state)
+            print("right_result", right_result)
+            tmp = ""
+            tmp = self.parents_var.var_name + f" = {''.join(right_result)};"
+            print("tmp", tmp)
+            self.state_c_code += tmp
+            node.right.is_leaf = True
+            node.right.type = "variable"
+            node.right.value = self.parents_var
+        # if node.zero_flag:
+        #   c_state.append("(")
         self.Inorder_ArithmeticsTree(node.right, c_state)
-        if node.zero_flag:
-          c_state.append("+1)")
+        # if node.zero_flag:
+        #   c_state.append("+1)")
         c_state.append(")")
         # print("Inorder_ArithmeticsTree c_state", c_state)
     
