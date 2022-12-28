@@ -24,13 +24,13 @@ class FunctionClass:
         # function return type
         self.function_type = random.choice(list(VarTypes))
         tmp = self.function_type.value + " " + self.function_name + "("
-        # if function type is bool, just return 0/1
-        if self.function_type == VarTypes.BOOL:
-            self.function_code.append(tmp+ ") {")
-            tmp = f"{INDENT}return {random.randint(0,1)};"
-            self.function_code.append(tmp)
-            self.function_code.append("}")
-            return
+        # # if function type is bool, just return 0/1
+        # if self.function_type == VarTypes.BOOL:
+        #     self.function_code.append(tmp+ ") {")
+        #     tmp = f"{INDENT}return {random.randint(0,1)};"
+        #     self.function_code.append(tmp)
+        #     self.function_code.append("}")
+        #     return
         self.function_arg_num = random.randint(0,3)
         for i in range(self.function_arg_num):
             tmp_var = Get_Random_Type_Var()
@@ -64,7 +64,7 @@ class FunctionClass:
     # build main function
     def Build_main_function(self):
         self.function_name = "main"
-        self.function_type = VarTypes.INT
+        self.function_type = VarTypes.INT32
         tmp = self.function_type.value + " " + self.function_name + "() {"
         self.function_code.append(tmp)
         self.min_block = (args.complexity) * 5

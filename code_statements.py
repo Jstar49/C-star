@@ -2,7 +2,7 @@ import random
 
 from Types import *
 from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
-from CType import CVal
+# from CType import CVal
 
 # binary tree  class
 class ArithmeticsTree:
@@ -143,6 +143,7 @@ class Assignement:
         self.Inorder_ArithmeticsTree(node.left, c_state)
         print(node.value)
         c_state.append(node.value.value)
+        '''
         # avoid div/rem zero operator
         if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
             right_result = []
@@ -150,12 +151,15 @@ class Assignement:
             print("c_state", c_state)
             print("right_result", right_result)
             tmp = ""
-            tmp = self.parents_var.var_name + f" = {''.join(right_result)};"
+            tmp = self.parents_var.var_name + f" = {''.join(right_result)};\n"
             print("tmp", tmp)
             self.state_c_code += tmp
-            node.right.is_leaf = True
-            node.right.type = "variable"
-            node.right.value = self.parents_var
+            tmp = f"if ({self.parents_var.var_name} == 0) {self.parents_var.var_name}+=1;\n"
+            self.state_c_code += tmp
+            # node.right.is_leaf = True
+            # node.right.type = "variable"
+            # node.right.value = self.parents_var
+            '''
         # if node.zero_flag:
         #   c_state.append("(")
         self.Inorder_ArithmeticsTree(node.right, c_state)

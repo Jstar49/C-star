@@ -22,21 +22,29 @@ def Get_BLOCKID():
 @unique
 class VarTypes(Enum):
     # VOID = "void"
-    BOOL = "bool"
-    UCHAR = "unsigned_char"
-    CHAR = "char"
-    USHORT = "unsigned_short"
-    SHORT = "short"
-    UINT = "unsigned_int"
-    INT = "int"
-    ULONG = "unsigned_long"
-    LONG = "long"
-    ULONGLONG = "unsigned_long_long"
-    LONGLONG = "long_long"
+    # BOOL = "bool"
+    # UCHAR = "unsigned_char"
+    # CHAR = "char"
+    # USHORT = "unsigned_short"
+    # SHORT = "short"
+    # UINT = "unsigned_int"
+    # INT = "int"
+    # ULONG = "unsigned_long"
+    # LONG = "long"
+    # ULONGLONG = "unsigned_long_long"
+    # LONGLONG = "long_long"
     # FLOAT = "float"
     # DOUBLE = "double"
+    UINT8 = "uint8_t"
+    INT8 = "int8_t"
+    UINT16 = "uint16_t"
+    INT16 = "int16_t"
+    UINT32 = "uint32_t"
+    INT32 = "int32_t"
+    UINT64 = "uint64_t"
+    INT64 = "int64_t"
   
-  
+'''
 def GetVarTypesBit(stype,platform="linux",bit=64):
   if platform=="linux" and bit==64:
     VarType2Bit = {
@@ -62,6 +70,7 @@ VarTypesUSign = [
   VarTypes.ULONG,
   VarTypes.ULONGLONG
 ]
+'''
 
 # Arithmetic operation
 @unique
@@ -104,28 +113,25 @@ class StatementsTypes(Enum):
 class TypeRanges:
     BOOL_MIN = 0
     BOOL_MAX = 1
-    CHAR_MIN = -128
-    CHAR_MAX = 127
-    UCHAR_MIN = 0
-    UCHAR_MAX = 255
-    USHORT_MIN = 0
-    USHORT_MAX = 65535
-    SHORT_MIN = -32768
-    SHORT_MAX = 32767
-    UINT_MIN = 0
-    UINT_MAX = 4294967295  # 1 << 32
-    INT_MIN = -2147483648
-    INT_MAX = 2147483647
-    ULONG_MIN = 0
-    ULONG_MAX = (1<<32) - 1 if args.target == 32 else (1<<64) - 1
-    LONG_MIN = -(1<<31) if args.target == 32 else (-(1<<63))
-    LONG_MAX = (1 << 31) - 1 if args.target == 32 else (1 << 63) - 1
-    LONGLONG_MIN = - (1 << 63)
-    LONGLONG_MAX = (1 << 63) - 1
-    ULONGLONG_MIN = 0
-    ULONGLONG_MAX = (1 << 64) - 1
+    INT8_MIN = -128
+    INT8_MAX = 127
+    UINT8_MIN = 0
+    UINT8_MAX = 255
+    UINT16_MIN = 0
+    UINT16_MAX = 65535
+    INT16_MIN = -32768
+    INT16_MAX = 32767
+    UINT32_MIN = 0
+    UINT32_MAX = 4294967295  # 1 << 32
+    INT32_MIN = -2147483648
+    INT32_MAX = 2147483647
+    INT64_MIN = - (1 << 63)
+    INT64_MAX = (1 << 63) - 1
+    UINT64_MIN = 0
+    UINT64_MAX = (1 << 64) - 1
 
-    
+
+'''
 VarType2CType = {
   VarTypes.UCHAR:"c_ubyte",
   VarTypes.CHAR:"c_byte",
@@ -195,3 +201,5 @@ def get_return_type(type1:VarTypes, type2:VarTypes):
 if __name__=="__main__":
   result = get_return_type(VarTypes.ULONG, VarTypes.LONGLONG)
   print(result)
+
+'''

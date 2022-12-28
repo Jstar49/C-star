@@ -39,7 +39,7 @@ class Gen_Program:
 
     # generate result variable
     def Gen_result_variable(self):
-        self.result_variable = LLong_t()
+        self.result_variable = INT64_T()
         self.result_variable.Random_values()
         self.result_variable.var_name = "result"
         tmp_c = "long long " + self.result_variable.var_name + " = " \
