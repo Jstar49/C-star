@@ -3,6 +3,7 @@ import random
 
 from pkg import *
 from Types import *
+from base_op_func import base_op_c
 from config import args
 from code_blocks import  CodeBlock
 from function import FunctionClass
@@ -13,6 +14,7 @@ class Gen_Program:
         self.functions = []
         self.global_vars = []
         self.outfile = args.o
+        self.program_header = []
         self.program_code = []
         # self.program_result_vars = []
         self.result_variable = None
@@ -35,7 +37,9 @@ class Gen_Program:
     # C code libary includes
     def Gen_includes(self):
         tmp_c = "#include <stdio.h>"
-        self.program_code.append(tmp_c)
+        self.program_header.append(tmp_c)
+        tmp_c = "#include <stdint.h>"
+        self.program_header.append(tmp_c)
 
     # generate result variable
     def Gen_result_variable(self):
@@ -69,7 +73,8 @@ class Gen_Program:
     # outout c source file
     def Output(self):
         header_info = ["/* "] + PROGRAM_INFO + ["*/"]
-        self.program_code = header_info + self.program_code
+        self.program_code = header_info + self.program_header + base_op_c.Build_operator_codes() \
+                             + self.program_code
         f = open(self.outfile, "w")
         for line in self.program_code:
             f.write(line + "\n")

@@ -1,7 +1,8 @@
 import random
 
 from Types import *
-from pkg import MathematicalTypes, AssignementTypes, StatementsTypes
+from pkg import *
+from base_op_func import base_op_c
 # from CType import CVal
 
 # binary tree  class
@@ -76,12 +77,30 @@ class Assignement:
         self.Gen_RandomTree_By_Level(self.root_node, 5, 0)
         # inorder traversal to get a arithmetics statement
         tmp = []
-        self.Inorder_ArithmeticsTree(self.root_node, tmp)
-        print("Gen_RandomArithmetics c_state", "".join(tmp))
-        print("self.state_c_code", self.state_c_code)
+        # self.Inorder_ArithmeticsTree(self.root_node, tmp)
+        # print("Gen_RandomArithmetics c_state", "".join(tmp))
+        
         self.state_c_code += self.parents_var.var_name + " "
         self.state_c_code += self.assignement_type.value + " "
-        self.state_c_code += "".join(tmp) + ";"
+        
+        root_arith_func = f"_func_{base_op_c.base_ops[self.root_node.value]}_"
+        root_arith_func += f"{self.parents_var.type_name.value}_"
+        base_op_c.Mark_func_used(root_arith_func)
+        # print(root_arith_func)
+        self.state_c_code += root_arith_func
+        self.state_c_code += "("
+
+        # left node
+        left_nodes = []
+        self.Inorder_ArithmeticsTree(self.root_node.left, left_nodes)
+        self.state_c_code += "".join(left_nodes) + ", "
+
+        # right node
+        right_nodes = []
+        self.Inorder_ArithmeticsTree(self.root_node.right, right_nodes)
+        self.state_c_code += "".join(right_nodes) + ");"
+
+        # print("self.state_c_code", self.state_c_code)
         # print(self.state_c_code)
         
 
@@ -139,34 +158,20 @@ class Assignement:
                     tmp = f"{str(node.value.value)}"
                 c_state.append(tmp)
             return
+
+        # print()
+        arith_func_name = f"_func_{base_op_c.base_ops[node.value]}_"
+        arith_func_name += random.choice(list(VarTypes)).value + "_"
+        base_op_c.Mark_func_used(arith_func_name)
+        # print(node.value, arith_func_name)
+        c_state.append(arith_func_name)
         c_state.append("(")
+
         self.Inorder_ArithmeticsTree(node.left, c_state)
-        print(node.value)
-        c_state.append(node.value.value)
-        '''
-        # avoid div/rem zero operator
-        if node.value==MathematicalTypes.DIV or node.value==MathematicalTypes.REM:
-            right_result = []
-            self.Inorder_ArithmeticsTree(node.right, right_result)
-            print("c_state", c_state)
-            print("right_result", right_result)
-            tmp = ""
-            tmp = self.parents_var.var_name + f" = {''.join(right_result)};\n"
-            print("tmp", tmp)
-            self.state_c_code += tmp
-            tmp = f"if ({self.parents_var.var_name} == 0) {self.parents_var.var_name}+=1;\n"
-            self.state_c_code += tmp
-            # node.right.is_leaf = True
-            # node.right.type = "variable"
-            # node.right.value = self.parents_var
-            '''
-        # if node.zero_flag:
-        #   c_state.append("(")
+        c_state.append(", ")
+        # c_state.append(node.value.value)
         self.Inorder_ArithmeticsTree(node.right, c_state)
-        # if node.zero_flag:
-        #   c_state.append("+1)")
         c_state.append(")")
-        # print("Inorder_ArithmeticsTree c_state", c_state)
     
     # assignement statement to C code
     def Gen_Assignement_C_Code(self):
