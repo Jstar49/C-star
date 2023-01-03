@@ -22,6 +22,8 @@ class CodeBlock:
     
     # generate new vars
     def Generate_Code_Blocks_var(self):
+        tmp = f'''/* ===== Block {self.block_id} ===== */'''
+        self.block_code.append(tmp)
         self.num_new_var = random.randint(1, self.max_init_var)
         for i in range(self.num_new_var):
             tmp_var = Get_Random_Type_Var()
@@ -46,8 +48,6 @@ class CodeBlock:
 
     # generate C source code block
     def Generate_C_Source_CodeBlock(self):
-        tmp = f'''/* ===== Block {self.block_id} ===== */'''
-        self.block_code.append(tmp)
         # statements
         for i in range(len(self.block_statements)):
             self.block_code.append(self.block_statements[i].c_code)

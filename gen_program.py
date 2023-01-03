@@ -57,6 +57,7 @@ class Gen_Program:
             fun_name = f"func_{i}"
             tmp_func = FunctionClass()
             tmp_func.function_name = fun_name
+            tmp_func.function_can_called = self.functions[:]
             tmp_func.main()
             self.functions.append(tmp_func)
             self.program_code += tmp_func.function_code
@@ -66,6 +67,7 @@ class Gen_Program:
     def Gen_main_function(self):
         main_func = FunctionClass()
         main_func.funtion_ret = self.result_variable
+        main_func.function_can_called = self.functions[:]
         main_func.Build_main_function()
         self.functions.append(main_func)
         self.program_code += main_func.function_code

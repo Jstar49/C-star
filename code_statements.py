@@ -73,6 +73,9 @@ class Assignement:
         self.root_node = ArithmeticsTree()
         self.root_node.value = random.choice(list(MathematicalTypes))
         treeDeep = 5
+        max_deep = random.randint(0, 5)
+        if max_deep == 0:
+            self.root_node.is_leaf = True
         # TODO : set treeDeep relate to complexity
         self.Gen_RandomTree_By_Level(self.root_node, 5, 0)
         # inorder traversal to get a arithmetics statement
@@ -82,24 +85,31 @@ class Assignement:
         
         self.state_c_code += self.parents_var.var_name + " "
         self.state_c_code += self.assignement_type.value + " "
-        
-        root_arith_func = f"_func_{base_op_c.base_ops[self.root_node.value]}_"
-        root_arith_func += f"{self.parents_var.type_name.value}_"
-        base_op_c.Mark_func_used(root_arith_func)
-        # print(root_arith_func)
-        self.state_c_code += root_arith_func
-        self.state_c_code += "("
+        if max_deep > 0:
+            root_arith_func = f"_func_{base_op_c.base_ops[self.root_node.value]}_"
+            root_arith_func += f"{self.parents_var.type_name.value}_"
+            base_op_c.Mark_func_used(root_arith_func)
+            # print(root_arith_func)
+            self.state_c_code += root_arith_func
+            self.state_c_code += "("
+        else:
+            node_codes = []
+            self.Inorder_ArithmeticsTree(self.root_node, node_codes)
+            self.state_c_code += "".join(node_codes)
 
         # left node
-        left_nodes = []
-        self.Inorder_ArithmeticsTree(self.root_node.left, left_nodes)
-        self.state_c_code += "".join(left_nodes) + ", "
+        if self.root_node.left:
+            left_nodes = []
+            self.Inorder_ArithmeticsTree(self.root_node.left, left_nodes)
+            self.state_c_code += "".join(left_nodes) + ", "
 
         # right node
-        right_nodes = []
-        self.Inorder_ArithmeticsTree(self.root_node.right, right_nodes)
-        self.state_c_code += "".join(right_nodes) + ");"
+        if self.root_node.right:
+            right_nodes = []
+            self.Inorder_ArithmeticsTree(self.root_node.right, right_nodes)
+            self.state_c_code += "".join(right_nodes) + ")"
 
+        self.state_c_code += ";"
         # print("self.state_c_code", self.state_c_code)
         # print(self.state_c_code)
         
@@ -125,10 +135,12 @@ class Assignement:
         node.left = ArithmeticsTree()
         node.left.deep = level + 1
         node.left.value = random.choice(list(MathematicalTypes))
-        node.right = ArithmeticsTree()
+        
         # right node
+        node.right = ArithmeticsTree()
         node.right.deep = level + 1
         node.right.value = random.choice(list(MathematicalTypes))
+
         # 33% chance to set next level is leaf
         random_leaf = random.randint(0,2)
         if level >= max_level or random_leaf == 1:

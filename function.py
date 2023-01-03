@@ -14,6 +14,8 @@ class FunctionClass:
         self.function_blocks = []
         self.function_code = []
         self.var_can_used_function = []
+        # 可用的函数调用
+        self.function_can_called = []
         self.function_var_backup = []
         self.funtion_ret = None
         # function args
@@ -24,13 +26,6 @@ class FunctionClass:
         # function return type
         self.function_type = random.choice(list(VarTypes))
         tmp = self.function_type.value + " " + self.function_name + "("
-        # # if function type is bool, just return 0/1
-        # if self.function_type == VarTypes.BOOL:
-        #     self.function_code.append(tmp+ ") {")
-        #     tmp = f"{INDENT}return {random.randint(0,1)};"
-        #     self.function_code.append(tmp)
-        #     self.function_code.append("}")
-        #     return
         self.function_arg_num = random.randint(0,3)
         for i in range(self.function_arg_num):
             tmp_var = Get_Random_Type_Var()
