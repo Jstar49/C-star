@@ -1,9 +1,58 @@
 import random
+import pdb
 
 from Types import *
 from pkg import *
 from base_op_func import base_op_c
 # from CType import CVal
+
+# Function called class
+class Function_Called_Class:
+    def __init__(self) -> None:
+        self.func = None
+        self.func_name = None
+        self.func_args = []
+
+        self.func_called_code = ""
+    
+    def Build_func_called(self, func_avail, var_avail):
+        var_table = {}
+        for i in range(len(var_avail)):
+            if var_avail[i].type_name not in var_table:
+                var_table[var_avail[i].type_name] = []
+            var_table[var_avail[i].type_name].append(var_avail[i])
+        # print(var_table, func_avail)
+        # TODO: 取出一个随机的可用函数，要求有满足函数所需的所有参数类型的变量
+        # print(func_avail)
+        if len(func_avail) < 1:
+            return False
+        
+        while len(func_avail):
+            self.func_args = []
+            func = random.choice(func_avail)
+            # pdb.set_trace()
+            self.func = func
+            self.func_name = func.function_name
+            can_use = True
+            for par in func.function_args:
+                if par.type_name in var_table:
+                    self.func_args.append(random.choice(var_table[par.type_name]))
+                else:
+                    can_use = False
+                    self.func_args = []
+            func_avail.remove(func)
+            if can_use:
+                # print(f"{len(func.function_args)}")
+                # print(f"函数调用 {self.func_name} 参数个数{len(self.func_args)}")
+                break
+        return can_use
+    
+    def Build_func_code(self):
+        self.func_called_code = f"{self.func_name}("
+        arg_ = []
+        for par in self.func_args:
+            arg_.append(par.var_name)
+        self.func_called_code += f"{', '.join(arg_)})"
 
 # binary tree  class
 class ArithmeticsTree:
@@ -50,7 +99,8 @@ class Assignement:
         # statements C code
         self.state_c_code = ""
         self.var_can_used = []
-        
+        # 可引用的函数
+        self.func_can_called = []
     
     # gen right
     def Gen_Assigned_And_children(self, var_can_used=[]):
@@ -59,14 +109,6 @@ class Assignement:
         
         # gen random arithmetics
         self.Gen_RandomArithmetics()
-        
-        # self.parents_var.val = self.root_node.c_value.ToValValue(self.parents_var.type_name)
-        # if self.parents_var.val==0:
-        #   self.parents_var.val+=1
-        #   self.state_c_code = self.state_c_code[:-1]+"+1;"
-        
-        # if self.parents_var.var_name=="result":
-        #   print(self.parents_var.var_name,"is",self.parents_var.val)
     
     # gen random arithmetics
     def Gen_RandomArithmetics(self):
@@ -118,19 +160,32 @@ class Assignement:
     def Gen_RandomTree_By_Level(self, node, max_level, level):
         if node.is_leaf:
             # choice in variable, constant, function call, 
-            i = random.randint(0, 1)
-            # i == 0, set variable
-            if i == 0:
-                node.value = random.choice(self.var_can_used)
-                # node.c_value = CVal(node.value)
-                node.type = "variable"
-            # i == 1, set constant
-            elif i == 1:
-                tmp = Constant_t()
-                tmp.random_const()
-                node.value = tmp
-                node.type = "constant"
-            return
+            method_allowd = 1
+            if args.complexity>2:
+                method_allowd = 2
+            method_allowd = [i for i in range(method_allowd+1)]
+            while 1:
+                i = random.choice(method_allowd)
+                # i == 0, set variable
+                if i == 0:
+                    node.value = random.choice(self.var_can_used)
+                    # node.c_value = CVal(node.value)
+                    node.type = "variable"
+                # i == 1, set constant
+                elif i == 1:
+                    tmp = Constant_t()
+                    tmp.random_const()
+                    node.value = tmp
+                    node.type = "constant"
+                # i == 2, function called
+                elif i == 2:
+                    node.type = "func_called"
+                    tmp = Function_Called_Class()
+                    if not tmp.Build_func_called(self.func_can_called, self.var_can_used):
+                        method_allowd.remove(i)
+                        continue
+                    node.value = tmp
+                return
         # left node
         node.left = ArithmeticsTree()
         node.left.deep = level + 1
@@ -169,6 +224,10 @@ class Assignement:
                 else:
                     tmp = f"{str(node.value.value)}"
                 c_state.append(tmp)
+            elif node.type == "func_called":
+                node.value.Build_func_code()
+                tmp = f"{node.value.func_called_code}"
+                c_state.append(tmp)
             return
 
         # print()
@@ -205,6 +264,8 @@ class Statements:
         self.var_used = []
         # the variables that can be used
         self.var_can_use = []
+        # 可调用的函数
+        self.func_can_called_stat = []
         self.c_code = ""
         
     # gen statements
@@ -214,6 +275,8 @@ class Statements:
     def Gen_Assignement(self):
         self.statement_type = StatementsTypes.Assignement
         self.state = Assignement(parents_var=random.choice(self.var_can_use))
-        print("====== Gen_Assignement self.state.parents_var", self.state.parents_var)
+        # print("====== Gen_Assignement self.state.parents_var", self.state.parents_var)
+        # print(f"{__file__} line 238 {self.func_can_called_stat}")
+        self.state.func_can_called = self.func_can_called_stat[:]
         self.state.Gen_Assigned_And_children(self.var_can_use)
         self.c_code = self.state.state_c_code

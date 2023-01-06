@@ -14,6 +14,8 @@ class CodeBlock:
         self.block_new_var_list = []
         # var can be used in this block
         self.var_can_used_block = []
+        # 可调用的函数调用
+        self.func_can_called_block = []
         self.block_statements = []
         self.block_code = []
     
@@ -43,6 +45,7 @@ class CodeBlock:
         for i in range(statements_num):
             state = Statements()
             state.var_can_use = self.var_can_used_block
+            state.func_can_called_stat = self.func_can_called_block[:]
             state.Gen_Statements()
             self.block_statements.append(state)
 
@@ -58,7 +61,7 @@ class CodeBlock:
     
     # generate init vars C source code
     def Generate_Init_Vars_Source_Code(self):
-        print(" Generate_Init_Vars_Source_Code ", self.block_id)
+        # print(" Generate_Init_Vars_Source_Code ", self.block_id)
         # print(" Generate_Init_Vars_Source_Code ", self.block_new_var_list)
         for var in self.block_new_var_list:
             # print(var)

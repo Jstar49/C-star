@@ -27,6 +27,7 @@ class FunctionClass:
         self.function_type = random.choice(list(VarTypes))
         tmp = self.function_type.value + " " + self.function_name + "("
         self.function_arg_num = random.randint(0,3)
+        arg_ = []
         for i in range(self.function_arg_num):
             tmp_var = Get_Random_Type_Var()
             tmp_var.var_name = f'arg_{i}'
@@ -36,8 +37,9 @@ class FunctionClass:
             # choice add to function_var_backup list
             if random.randint(0, 1):
                 self.function_var_backup.append(tmp_var)
-            tmp += f"{tmp_var.type_name.value} {tmp_var.var_name}, "
-        self.function_code.append(tmp+ ") {")
+            arg_.append(f"{tmp_var.type_name.value} {tmp_var.var_name}")
+        
+        self.function_code.append(tmp + ", ".join(arg_)+ ") {")
         
         # build a variable for rets
         rets_var = Get_Var_By_Type(self.function_type.value)
@@ -79,6 +81,7 @@ class FunctionClass:
         block.Generate_Code_Blocks_var()
         block.var_can_used_block += self.var_can_used_function
         self.var_can_used_function += block.block_new_var_list
+        block.func_can_called_block = self.function_can_called[:]
         block.Gen_Block_statements()
         block.Generate_C_Source_CodeBlock()
         self.function_blocks.append(block)
